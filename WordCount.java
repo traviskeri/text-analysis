@@ -60,11 +60,28 @@ public class WordCount {
         }
     }
 
+
+    /**
+    *TK
+    *Modified this to recongnize if we want to use bst, avl, or hashtabel. We
+    *still need to decide if we want to modify the countWords() method to do all 
+    *three or if we want to do a seperate method for each.
+    *
+    *Also still need to add in the if statements for the third argument
+    */
     public static void main(String[] args) {
-        if (args.length != 1) {
+        if (args.length != 3) {
             System.err.println("Usage: filename of document to analyze");
             System.exit(1);
         }
-        countWords(args[0]);
+        if(args[1]=="-b"){
+            countWords(args[0]);
+        }
+        else if(args[1]=="-a"){
+            countWords(args[0]);
+        }
+        else if(args[1]=="-h"){
+            countWords(args[0]);
+        }
     }
 }
