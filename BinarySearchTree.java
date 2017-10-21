@@ -7,43 +7,18 @@
  */
 public class BinarySearchTree<E extends Comparable<? super E>> implements
         DataCounter<E> {
-
-    /**
-     * The root of the binary search tree. root is null if and only if the tree
-     * is empty.
-     */
-    protected BSTNode overallRoot;
-
-    /**
-     * Number of nodes in the binary search tree.
-     */
-    protected int size;
-
-    /**
-     * Inner (non-static) class to represent a node in the tree. Each node
-     * includes a String and an integer count. The class is protected so that it
-     * may be accessed by subclasses of BSTCounter.
-     */
+    protected BSTNode overallRoot;//The root of the binary search tree. root is null if and only if the tree is empty.
+    protected int size;//Number of nodes in the binary search tree.
+    protected int height;
+    
     protected class BSTNode {
-        /**
-         * The left child of this node.
-         */
-        public BSTNode left;
-
-        /**
-         * The right child of this node.
-         */
-        public BSTNode right;
-
-        /**
-         * The data element stored at this node.
-         */
-        public E data;
-
-        /**
-         * The count for this data element.
-         */
-        public int count;
+    		public BSTNode parent;
+        public BSTNode left;//The left child of this node.
+        public BSTNode right;//The right child of this node
+        public E data;//The data element stored at this node.
+        public int count;// The count for this data element.
+        public int height;
+        public int balance;
 
         /**
          * Create a new data node. Also takes care of incrementing the tree
@@ -56,6 +31,14 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements
             count = 1;
             left = right = null;
             size++;
+        }
+        //Aaron Made
+        public BSTNode(E data, BSTNode parent) {
+        		this.data = data;
+        		count = 1;
+        		left = right = null;
+        		size++;
+        		this.parent = parent;
         }
     }
 

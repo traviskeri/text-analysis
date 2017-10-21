@@ -61,10 +61,14 @@ public class WordCount {
     }
 
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.err.println("Usage: filename of document to analyze");
-            System.exit(1);
-        }
+//        if (args.length != 1) {
+//            System.err.println("Usage: filename of document to analyze");
+//            System.exit(1);
+//        }
+    	String arg1 = args[0];
+    	String arg2 = args[1];
+    	String arg3 = args[2];
+    	System.out.println(arg1+arg2+arg3);
         countWords(args[0]);
     }
 }
