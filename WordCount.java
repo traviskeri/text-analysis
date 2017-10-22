@@ -6,18 +6,24 @@ import java.io.IOException;
  */
 public class WordCount {
 
-    private static void countWords(String file) {
-        DataCounter<String> counter = new BinarySearchTree<String>();
+    private static void countWords(String[] args) {
+    	DataCounter<String> counter; 
+    		if(args[0]=="-b")
+    			counter = new BinarySearchTree<String>();
+    		else if(args[0]=="-a")
+    			counter = new AVL<String>();
+    		else
+    			counter = new BinarySearchTree<String>();
 
         try {
-            FileWordReader reader = new FileWordReader(file);
+            FileWordReader reader = new FileWordReader(args[2]);
             String word = reader.nextWord();
             while (word != null) {
                 counter.incCount(word);
                 word = reader.nextWord();
             }
         } catch (IOException e) {
-            System.err.println("Error processing " + file + e);
+            System.err.println("Error processing " + args[2] + e);
             System.exit(1);
         }
 
@@ -60,15 +66,24 @@ public class WordCount {
         }
     }
 
+
+    /**
+    *TK
+    *Modified this to recongnize if we want to use bst, avl, or hashtabel. We
+    *still need to decide if we want to modify the countWords() method to do all 
+    *three or if we want to do a seperate method for each.
+    *
+    *Also still need to add in the if statements for the third argument
+    */
     public static void main(String[] args) {
-//        if (args.length != 1) {
-//            System.err.println("Usage: filename of document to analyze");
-//            System.exit(1);
-//        }
-    	String arg1 = args[0];
-    	String arg2 = args[1];
-    	String arg3 = args[2];
-    	System.out.println(arg1+arg2+arg3);
-        countWords(args[0]);
+        if (args.length != 3) {
+            System.err.println("Usage: filename of document to analyze");
+            System.out.println("Incorret amount of arguments");
+            System.exit(1);
+        }
+        //
+        
+        countWords(args);
+
     }
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * BSTCounter implements the DataCounter interface using a binary search tree to
  * store the data items and counts.
@@ -24,7 +26,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements
          * Create a new data node. Also takes care of incrementing the tree
          * size.
          *
-         * @param data data element to be stored at this node.
+         * @param data2 data element to be stored at this node.
          */
         public BSTNode(E data) {
             this.data = data;
@@ -139,7 +141,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements
     protected String dump(BSTNode root) {
         if(root == null)
             return ".";
-
+        
         String out = "([" + root.data + "," + root.count + "] ";
         out += dump(root.left);
         out += " ";
@@ -147,5 +149,20 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements
         out += ")";
 
         return out;
+    }
+    public static void main (String[] args) {
+		BinarySearchTree avl = new BinarySearchTree<>();
+		ArrayList<String> list = new ArrayList<>();
+		list.add("a");
+		list.add("b");
+		list.add("c");
+		list.add("d");
+		list.add("e");
+		list.add("f");
+		list.add("g");
+		for(String words: list) {			
+			avl.incCount(words);
+		}
+		avl.getCounts();
     }
 }

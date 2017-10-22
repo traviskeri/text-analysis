@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.lang.Math;
+import java.lang.String;
+
+public class AVL<E> extends BinarySearchTree implements DataCounter{
 	
-public class AVL extends BinarySearchTree implements DataCounter{
-	
-	
+	protected int lastComparedValue=0;
+	protected E lastWord = (E) "";
 
 		private BSTNode findMin(BSTNode t){
 			if(t == null){
@@ -22,50 +24,111 @@ public class AVL extends BinarySearchTree implements DataCounter{
 				return findMin(t.left);
 			}
 		}
+
+	    /** {@inheritDoc} */
+		//copied from BinarySearchTree class
+	    public void incCount(String data) {
+	        if (overallRoot == null) {
+	            overallRoot = new BSTNode(data);
+	        } else {
+	            // traverse the tree
+	            BSTNode currentNode = overallRoot;
+	            while (true) {
+
+	                // compare the data to be inserted with the data at the current
+	                // node
+	                int cmp = data.compareTo((String)currentNode.data);
+
+	                if (cmp == 0) {
+	                    // current node is a match
+	                    currentNode.count++;
+	                    return;
+	                } else if (cmp < 0) {
+	                    // new data goes to the left of the current node
+	                    if (currentNode.left == null) {
+	                        currentNode.left = new BSTNode(data);
+	                        currentNode.left.parent=currentNode;
+	                        rebalance(currentNode.left);
+	                        return;
+	                    }
+	                    currentNode = currentNode.left;
+	                } else {
+	                    // new data goes to the right of the current node
+	                    if (currentNode.right == null) {
+	                        currentNode.right = new BSTNode(data);
+	                        currentNode.right.parent=currentNode;
+	                        rebalance(currentNode.right);
+	                        return;
+	                    }
+	                   currentNode = currentNode.right;
+	                }
+	            }
+	        }
+	    }
 		
-		public void insert(int data) {
-			if(overallRoot==null)
-				overallRoot=new BSTNode(data, null);
-			//new node greater
-			else if(true){//TODO NEED METHOD TO ORDER STRINGS
-				if(overallRoot.right==null) {
-					overallRoot.right = new BSTNode(data, overallRoot);
-					rebalance(overallRoot.right);}
-				else
-					insert(data, overallRoot.right);
-			}
-			//new node lesser
-			else if(true) {//TODO NEED METHOD TO ORDER STRINGS
-				if(overallRoot.left==null) {
-					overallRoot.left = new BSTNode(data, overallRoot);
-					rebalance(overallRoot.left);}
-				else
-					insert(data, overallRoot.left);
-			}
-		}
 		
-		public void insert(int data, BSTNode focusNode) {
-			//new node greater
-			if(true){//TODO NEED METHOD TO ORDER STRINGS
-				if(focusNode.right==null) {
-					focusNode.right = new BSTNode(data, focusNode);
-					rebalance(focusNode.right);
-				}
-				else {
-					insert(data, focusNode.right);
-				}
-			}
-			else if(true) {//TODO NEED METHOD TO ORDER STRINGS
-				if(focusNode.left==null) {
-					focusNode.left = new BSTNode(data, focusNode);
-					rebalance(focusNode.left);
-				}
-				else {
-					insert(data, focusNode.left);
-				}
-			}
-			
-		}	
+//		public void insert(String data) {
+//			BSTNode t = new BSTNode((Comparable) data);
+//			BSTNode currentNode= overallRoot;
+//			System.out.println(t.data);
+//			int cmp = t.data.compareTo(lastWord);
+//			if(overallRoot==null) {
+//				overallRoot=new BSTNode(t.data, null);
+//				lastWord = (E) t.data;
+//				}
+//			else if(cmp==0)
+//				
+//			//new node greater for roots only
+//			else if(cmp>0){//TODO NEED METHOD TO ORDER STRINGS
+//				if(overallRoot.right==null) {
+//					overallRoot.right = new BSTNode(t.data, overallRoot);
+//					lastWord = (E) t.data;
+//					overallRoot.right.count++;
+//					rebalance(overallRoot.right);	
+//				}
+//				else
+//					insert(t, overallRoot.right);
+//			}
+//			//new node lesser
+//			else if(cmp>0) {//TODO NEED METHOD TO ORDER STRINGS overallRoot.left.data
+//				if(overallRoot.left==null) {
+//					overallRoot.left = new BSTNode(t.data, overallRoot);
+//					lastWord = (E) t.data;
+//					rebalance(overallRoot.left);
+//					overallRoot.left.count++;
+//				}
+//				else
+//					insert(t, overallRoot.left);
+//			}
+//		}
+//		
+//		public void insert(BSTNode t, BSTNode focusNode) {
+//			//new node greater
+//			int cmp = t.data.compareTo(lastWord);
+//			if(cmp==0) {
+//				t.count++;
+//			}
+//			else if(cmp>0){//TODO NEED METHOD TO ORDER STRINGS
+//				if(focusNode.right==null) {
+//					focusNode.right = new BSTNode(t.data, focusNode);
+//					rebalance(focusNode.right);
+//					lastWord = (E) t.data;
+//				}
+//				else {
+//					insert(t, focusNode.right);
+//				}
+//			}
+//			else if(cmp<0) {//TODO NEED METHOD TO ORDER STRINGS
+//				if(focusNode.left==null) {
+//					focusNode.left = new BSTNode(t.data, focusNode);
+//					rebalance(focusNode.left);
+//					lastWord = (E) t.data;
+//				}
+//				else {
+//					insert(t, focusNode.left);
+//				}
+//			}
+//		}	
 		
 
 		 private BSTNode leftRotation(BSTNode x) {
@@ -77,7 +140,7 @@ public class AVL extends BinarySearchTree implements DataCounter{
 	        x.parent = y;
 	        reattach(x,y);
 	        balance(x, y);
-	        System.out.print("Left ");
+	        //System.out.print("Left ");
 	        return y;
 	    }
 
@@ -91,7 +154,7 @@ public class AVL extends BinarySearchTree implements DataCounter{
 	        reattach(x,y);
 	        balance(x, y);
 	        //int data = BSTNode.data;
-	        System.out.print("Right ");
+	        //System.out.print("Right ");
 	        return y;
 		}
 		
@@ -196,5 +259,19 @@ public class AVL extends BinarySearchTree implements DataCounter{
 		return overallRoot;
 	}
 
-	
+	public static void main (String[] args) {
+		AVL avl = new AVL<>();
+		ArrayList<String> list = new ArrayList<>();
+		list.add("a");
+		list.add("b");
+		list.add("c");
+		list.add("d");
+		list.add("e");
+		list.add("f");
+		list.add("g");
+		for(String words: list) {			
+			avl.incCount(words);
+		}
+		avl.getCounts();
+	}
 }
