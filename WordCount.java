@@ -1,36 +1,61 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * An executable that counts the words in a files and prints out the counts in
  * descending order. You will need to modify this file.
  */
-public class WordCount {
+public class WordCount<T> {
+	String name;
+	T dataStruct;
+	ArrayList<String> frequency;
+	int numUnique;
+	
+	public WordCount(String name, T dataStruct){
+		this.name=name;
+		this.dataStruct=dataStruct;
+	}
+	
+    public String getName() {	return name;}
+	public void setName(String name) {this.name = name;}
+	public ArrayList<String> getFrequency() {return frequency;}
+	public void setFrequency(ArrayList<String> frequency) {		this.frequency = frequency;}
+	public int getNumUnique() {	return numUnique;}
+	public void setNumUnique(int num_unique) {	this.numUnique = num_unique;}
 
-    private static void countWords(String[] args) {
-    	DataCounter<String> counter; 
-    		if(args[0]=="-b")
-    			counter = new BinarySearchTree<String>();
-    		else if(args[0]=="-a")
-    			counter = new AVL<String>();
-    		else
-    			counter = new BinarySearchTree<String>();
-
-        try {
-            FileWordReader reader = new FileWordReader(args[2]);
+	private static void countWords(String[] theArgs) {
+    		DataCounter<String> counter; 
+		switch(theArgs[0]) {
+			case "-a":	counter = new  AVL<String>();
+				break;
+			case "-h":	counter = new BinarySearchTree<String>();
+				break;
+			default:		counter = new BinarySearchTree<String>();
+				break;
+		}
+		try {
+            FileWordReader reader = new FileWordReader("texts/"+theArgs[2]);//added to be able to keep text folder.
             String word = reader.nextWord();
             while (word != null) {
                 counter.incCount(word);
                 word = reader.nextWord();
             }
         } catch (IOException e) {
-            System.err.println("Error processing " + args[2] + e);
+            System.err.println("Error processing " + theArgs[2] + e);
             System.exit(1);
         }
-
-        DataCount<String>[] counts = counter.getCounts();
-        sortByDescendingCount(counts);
-        for (DataCount<String> c : counts)
-            System.out.println(c.count + " \t" + c.data);
+		
+    	switch(theArgs[1]) {
+	    	case "-frequency": 
+	            DataCount<String>[] counts = counter.getCounts();
+	            sortByDescendingCount(counts);
+	            for (DataCount<String> c : counts)
+	                System.out.println(c.count + " \t" + c.data);
+	    		break;
+	    	case "-num_unique":
+	    		System.out.println(counter.getSize());//for hamlet we are getting 9701
+	    		break;
+    	}   
     }
 
     /**
@@ -82,8 +107,8 @@ public class WordCount {
             System.exit(1);
         }
         //
-        
-        countWords(args);
+        String[] theArgs = args;
+        countWords(theArgs);
 
     }
 }

@@ -6,7 +6,7 @@
  * that HashTable works only with Strings, whereas the DataCounter interface is
  * generic.  You need the String contents to write your hashcode code.
  */
-import java.uitl.ArrayList;
+import java.util.ArrayList;
 
 public class HashTable implements DataCounter<String> {
 

@@ -10,3 +10,5 @@
 /.metadata/
 /BSTNode.class
 /TreePrinter.class
+/HashTable$HashNode.class
+/DocumentCorrelator.class
