@@ -15,6 +15,9 @@ public class WordCount<T> {
 		this.name=name;
 		this.dataStruct=dataStruct;
 	}
+	public WordCount(String name){
+		this.name=name;
+	}
 	
     public String getName() {	return name;}
 	public void setName(String name) {this.name = name;}
@@ -23,7 +26,7 @@ public class WordCount<T> {
 	public int getNumUnique() {	return numUnique;}
 	public void setNumUnique(int num_unique) {	this.numUnique = num_unique;}
 
-	private static void countWords(String[] theArgs) {
+	public static DataCount<String>[] countWords(String[] theArgs, boolean print) {
     		DataCounter<String> counter; 
 		switch(theArgs[0]) {
 			case "-a":	counter = new  AVL<String>();
@@ -44,18 +47,22 @@ public class WordCount<T> {
             System.err.println("Error processing " + theArgs[2] + e);
             System.exit(1);
         }
-		
-    	switch(theArgs[1]) {
-	    	case "-frequency": 
-	            DataCount<String>[] counts = counter.getCounts();
-	            sortByDescendingCount(counts);
-	            for (DataCount<String> c : counts)
-	                System.out.println(c.count + " \t" + c.data);
-	    		break;
-	    	case "-num_unique":
-	    		System.out.println(counter.getSize());//for hamlet we are getting 9701
-	    		break;
-    	}   
+		DataCount<String>[] counts = counter.getCounts();
+		if(print) {
+		    	switch(theArgs[1]) {
+			    	case "-frequency": 
+			            sortByDescendingCount(counts);
+			            for (DataCount<String> c : counts) 
+			                System.out.println(c.count + " \t" + c.data);
+			    		break;
+			    	case "-num_unique":
+			    		System.out.println(counter.getSize());//for hamlet we are getting 9701
+			    		break;
+		    	}   
+		}
+		else
+			sortByDescendingCount(counts);
+	    	return counts;
     }
 
     /**
@@ -101,14 +108,15 @@ public class WordCount<T> {
     *Also still need to add in the if statements for the third argument
     */
     public static void main(String[] args) {
+    	System.out.println("the args are: "+args[0]+ " " + args[1]+ " "+ args[2]);
         if (args.length != 3) {
             System.err.println("Usage: filename of document to analyze");
             System.out.println("Incorret amount of arguments");
             System.exit(1);
         }
-        //
+        boolean print = true;//this is so count words will print things
         String[] theArgs = args;
-        countWords(theArgs);
+        countWords(theArgs,true);
 
     }
 }

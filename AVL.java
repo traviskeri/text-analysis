@@ -1,3 +1,4 @@
+
 //#1: So should I store nodes that are a string and that hold the number how many times that string has appeared?
 
 //#2: If I am storing the nodes by string do I need to organized all the string node in alphabetical order?
@@ -273,5 +274,13 @@ public class AVL<E> extends BinarySearchTree implements DataCounter{
 			avl.incCount(words);
 		}
 		avl.getCounts();
+		System.out.println(avl.overallRoot.data+" should be d");
+		System.out.println(avl.overallRoot.left.data+" should be b");
+		System.out.println(avl.overallRoot.right.data+" should be f");
+		System.out.println(avl.overallRoot.left.left.data+" should be a");
+		System.out.println(avl.overallRoot.left.right.data+" should be c");
+		System.out.println(avl.overallRoot.right.left.data+" should be e");
+		System.out.println(avl.overallRoot.right.right.data+" should be g");
+		
 	}
 }

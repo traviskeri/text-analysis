@@ -1,47 +1,39 @@
 import java.util.List;
-
+//calculate the word count for two documents
 public class DocumentCorrelator {
 	
-//	private <T<String>> chooseDataStruct(String dataStruct){
-//		switch(dataStruct) {
-//			case "-a":
-//				return new AVL<String>();
-//			case "-h":
-//				return new BinarySearchTree<String>();
-//			default:
-//				return new BinarySearchTree<String>();
-//		}
-//	}
-	
-	//uses freq
-	private void assignFreq(WordCount wordCount) {
-		
+	public void printFreqs(DataCount<String>[] file1, DataCount<String>[] file2) {
+		int tempMin = (file1.length<file2.length)? file1.length : file2.length;
+		//System.out.println(tempMin);
+		System.out.println(String.format("%-13s", "file1 number")+"|"+String.format("%-15s", "file1 word")+
+				"|"+String.format("%-13s", "file2 number")+"|"+String.format("%-15s", "file2 word"));
+		System.out.println("-----------------------------------------------------------------");
+		for(int i=0; i<=tempMin-1; i++)
+			System.out.println(String.format("%-13s", file1[i].count)+"|"+String.format("%-15s", file1[i].data)+
+					"|"+String.format("%-13s", file2[i].count)+"|"+String.format("%-15s", file2[i].data));
 	}
 	
-	//uses num_unique
-	private void assignUniq() {
+	public void wordToWord() {
 		
 	}
 	
 	public static void main (String[] args) {
 	if(args.length!=3) {
-		System.err.println("The incorrect number of arguments are bing passed through. Please try again.");
+		System.err.println("The incorrect number of arguments are being passed through. Please try again.");
 		System.exit(0);
 	}
-	
-	WordCount hamlet = new WordCount("hamlet", "-b");
-	WordCount theNewAtlantis = new WordCount("the-new-atlantis", "-b");
-	
+	DocumentCorrelator doc = new DocumentCorrelator();
+	WordCount hamlet = new WordCount("hamlet");
+	WordCount theNewAtlantis = new WordCount("the-new-atlantis");
 	//avl
-	String[] avlFreq = {"-a","-frequency","hamlet.txt"};
-	AVL avlHamlet = new AVL();
+	String[] freq1 = {args[0],"-frequency",args[1]};
+	String[] freq2 = {args[0],"-frequency",args[2]};
+	//pass false so it wont print extra things
+	DataCount<String>[] hamletData = hamlet.countWords(freq1,false);//file1
+	DataCount<String>[] theNewAtlantisData = theNewAtlantis.countWords(freq2,false);//file2
+	doc.printFreqs(hamletData, theNewAtlantisData);
 	
-	//hamlet.countWords(avlFreq);
 	
-	//hash
-	
-	
-	//bst
 	BinarySearchTree bst = new BinarySearchTree();
 	}
 }
