@@ -12,6 +12,7 @@ public class BinarySearchTree<E extends Comparable<? super E>> implements
     protected BSTNode overallRoot;//The root of the binary search tree. root is null if and only if the tree is empty.
     protected int size;//Number of nodes in the binary search tree.
     protected int height;
+    public int totalWordCount=0;
     
     protected class BSTNode {
     		public BSTNode parent;

@@ -48,20 +48,22 @@ public class WordCount<T> {
             System.exit(1);
         }
 		DataCount<String>[] counts = counter.getCounts();
-		if(print) {
+
 		    	switch(theArgs[1]) {
 			    	case "-frequency": 
 			            sortByDescendingCount(counts);
-			            for (DataCount<String> c : counts) 
-			                System.out.println(c.count + " \t" + c.data);
+			            for(int i=0; i<counts.length;i++) {
+			            		if(print)
+			            			System.out.println(counts[i].count + " \t" + counts[i].data);
+			                counts[0].totalWordCount+=counts[i].count;
+			                //System.out.println(counts[1].totalWordCount+ ": total words");
+			            }
 			    		break;
 			    	case "-num_unique":
-			    		System.out.println(counter.getSize());//for hamlet we are getting 9701
+			    		if(print)
+			    			System.out.println(counter.getSize());//for hamlet we are getting 9701
 			    		break;
-		    	}   
-		}
-		else
-			sortByDescendingCount(counts);
+		    	}  
 	    	return counts;
     }
 
@@ -117,6 +119,7 @@ public class WordCount<T> {
         boolean print = true;//this is so count words will print things
         String[] theArgs = args;
         countWords(theArgs,true);
+        System.out.println("hey");
 
     }
 }

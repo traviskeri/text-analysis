@@ -27,6 +27,7 @@ public class AVL<E> extends BinarySearchTree implements DataCounter{
 		}
 
 	    /** {@inheritDoc} */
+		
 		//copied from BinarySearchTree class
 	    public void incCount(String data) {
 	        if (overallRoot == null) {
