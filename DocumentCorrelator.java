@@ -21,7 +21,8 @@ public class DocumentCorrelator {
 	//we need to return the  metric difference
 	public double getMetDif(DataCount<String>[] biggerFile, DataCount<String>[] smallerFile) {
 		double metDif = 0;
-		double cur, bigger, smaller;
+		
+		//remove words with normalized frequencies above 0.01 (1%) and below 0.0001 (0.01%)
 		for (int i=0; i<biggerFile.length-1; i++){
            for (int j=0; j<smallerFile.length-1; j++){
               if (biggerFile[i].data.equals(smallerFile[j].data)) {
@@ -58,13 +59,28 @@ public class DocumentCorrelator {
 	            	  	percentage = (smallerFile[j].count>biggerFile[i].count)? (double)biggerFile[i].count/smallerFile[j].count: 
 	            	  		(double)smallerFile[j].count/biggerFile[i].count;
 	            	  	System.out.printf("%-6.2f %% match", percentage*100);
-	            	  	System.out.print(" | "+String.format("%-15s", smallerFile[j].data)+"|"+String.format("%-15s", smallerFile[j].count)+"|"
-	            	  	+String.format("%-15s", biggerFile[i].count) + "\n");
+	            	  	System.out.print(" | "+String.format("%-15s", smallerFile[j].data)+"|"+String.format("%-15s", smallerFile[j].count+" Smaller")+"|"
+	            	  	+String.format("%-15s", biggerFile[i].count+ " Bigger") + "\n");
 	              }
 	           }
 	        }
+		System.out.println("Please go to top to see a key to explain this table");
 		return 0;
 	}
+	
+		//get the number of word for a specific count
+		public int numWordsWithCount(DataCount<String>[] dataCount,int freq) {
+			int numSameFreq=0;
+			for(DataCount<String> c: dataCount)
+				numSameFreq += (c.count==freq)? 1: 0;
+			return numSameFreq;
+		}
+		
+		//take in 1 dataCount and then cut off words 1% above and 0.01% below
+		public DataCount<String>[] latentSemanticIndexing(DataCount<String>[] dataCount) {
+			
+			return dataCount;
+		}
 	
 	public static void main (String[] args) {
 	if(args.length!=3) {
@@ -82,7 +98,7 @@ public class DocumentCorrelator {
 	doc.printFreqs(hamletData, theNewAtlantisData);
 	doc.findMetDif(hamletData, theNewAtlantisData);
 	doc.compareSameWords(hamletData, theNewAtlantisData);
+	System.out.println(doc.numWordsWithCount(hamletData, 102));//when hamlet.txt passed with 102 or 99 we should get back 2
 	
-	BinarySearchTree bst = new BinarySearchTree();
 	}
 }
