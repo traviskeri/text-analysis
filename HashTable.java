@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class HashTable implements DataCounter<String> {
 
+    //Inner class for the hashnode
     public class HashNode<k, v>{
         k key;
         v value;
@@ -23,12 +24,16 @@ public class HashTable implements DataCounter<String> {
         }
     }
 
+
     private ArrayList<HashNode<k, v>> bucketArray;
 
+    //Number of buckets in the hashtable
     private int numBuckets;
 
+    //Number of unique entry in hashtable
     private int size;
 
+    //Creating the bucketArry setting it to the default of 10
     public map(){
         bucketArray = new ArrayList<>():
         numBuckets = 10;
@@ -39,17 +44,24 @@ public class HashTable implements DataCounter<String> {
         }   
     }
 
+    //Returning the number of unique entries in the hashtable
     public int size(){return size;}
 
+    //Returns a boolean for if the hashtable is empty
     public boolean isEmpty(){return size == 0;}
 
+    //Takes the key hashes it to a unigue value then mods it to the size of the hashtable
     private in findBucket(k key){
-        int hashcode = key.hashcode();
-        int index = hashcode % numBuckets;
+        int hash;
+        for(int i = 0; i < k.length; i++){
+            hash = hash * 7 + k.chatAt(i);
+        }
+        int index = hash % numBuckets;
         return index;
     }
 
-    public V get(k key){
+    //Returns the value of a HashNode for a key
+    public v get(k key){
 
         int bucketIndex = findBucket(key);
         HashNode<k, v> head = bucketArray.get(bucketIndex);
@@ -64,6 +76,7 @@ public class HashTable implements DataCounter<String> {
         return null;
     }
 
+    //Inserts a HashNode into the hasetable
     public void insert(k key, v value){
         
         int bucketIndex = findBucket(key);
@@ -102,6 +115,7 @@ public class HashTable implements DataCounter<String> {
 
     }
 
+    //Removes a HashNode from the hashtable
     public v remove(k key){
 
         int bucketIndex = findBucket(key);
