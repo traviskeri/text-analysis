@@ -8,7 +8,7 @@
  */
 import java.util.ArrayList;
 
-public class HashTable implements DataCounter<String> {
+public class HashTable<E> implements DataCounter<String> {
 
     //Inner class for the hashnode
     public class HashNode<k, v>{
@@ -35,7 +35,7 @@ public class HashTable implements DataCounter<String> {
 
     //Creating the bucketArry setting it to the default of 10
     public map(){
-        bucketArray = new ArrayList<>();
+        bucketArray = new ArrayList<>():
         numBuckets = 10;
         size = 0;
 
@@ -43,9 +43,6 @@ public class HashTable implements DataCounter<String> {
             bucketArray.insert(null);
         }   
     }
-
-    //Returning the number of unique entries in the hashtable
-    public int size(){return size;}
 
     //Returns a boolean for if the hashtable is empty
     public boolean isEmpty(){return size == 0;}
@@ -148,13 +145,24 @@ public class HashTable implements DataCounter<String> {
     public DataCount<String>[] getCounts() {
         @SuppressWarnings("unchecked")
         DataCount<E>[] counts = new DataCount[size];
+        HashNode<k, v> current;
+        int j = 0;
+        
         if(!bucketArry.isEmpty()){
-
+        
+            for(int i = 0; i < numBuckets; i++){
+                current = bucketArray.get(i);
+        
+                while(current != null){
+                    counts[j++] = new DataCount<E>(current.key, current.value);
+                    current = current.next;
+                }
+            }
         }
-        return null;
+        return counts;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc} Return the number of unique elements in the hashtable*/
     public int getSize() {
         return size;
     }
