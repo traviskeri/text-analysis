@@ -148,13 +148,3 @@ public class DocumentCorrelator {
 	
 	}
 }
-//DUE to totalWordCount being set to an int and not double in data count we ran into this problem (unit testing)
-//System.out.println(biggerFile[0].totalWordCount + "    " + smallerFile[0].totalWordCount);
-//	bigger = biggerFile[i].count / biggerFile[0].totalWordCount;
-//	smaller = smallerFile[j].count / smallerFile[0].totalWordCount;
-//	//System.out.println(bigger+"="biggerFile[i] +":bigger");
-//	System.out.println(smaller+"="+smallerFile[j].count+"/"+smallerFile[0].totalWordCount+":smaller");
-//cur=Math.pow(((biggerFile[i].count / biggerFile[0].totalWordCount) - (smallerFile[j].count / smallerFile[0].totalWordCount)), 2);
-//System.out.println(cur+": this is cur");
-// System.out.println(biggerFile[i].count + ": " + biggerFile[i].data);
-// System.out.println(smallerFile[j].count + ": " + smallerFile[j].data); 
