@@ -82,13 +82,13 @@ public class HashTable implements DataCounter<String> {
         int bucketIndex = findBucket(key);
         HashNode<k, v> head = bucketArray.get(bucketIndex);
 
-        while(head != null){
+        /*while(head != null){
             if (head.key.equals(key)){
                 head.value = value;
                 return;
             }
             head = head.next;
-        }
+        }*/
 
         size++;
         head = bucketArray.get(bucketIndex);
@@ -146,19 +146,33 @@ public class HashTable implements DataCounter<String> {
 
     /** {@inheritDoc} */
     public DataCount<String>[] getCounts() {
-        // TODO Auto-generated method stub
+        @SuppressWarnings("unchecked")
+        DataCount<E>[] counts = new DataCount[size];
+        if(!bucketArry.isEmpty()){
+
+        }
         return null;
     }
 
     /** {@inheritDoc} */
     public int getSize() {
-        // TODO Auto-generated method stub
-        return 0;
+        return size;
     }
 
     /** {@inheritDoc} */
-    public void incCount(String data) {
-        // TODO Auto-generated method stub
+    public void incCount(k key) {
+        int bucketIndex = findBucket(key);
+        HashNode<k, v> current = bucketArray.get(bucketIndex);
+
+        while(current != null){
+            if(current.key.equals(key)){
+                value++;
+                return;
+            }
+            current = current.next;
+        }
+
+        insert(key);
 
     }
 
