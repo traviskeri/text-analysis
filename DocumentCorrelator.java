@@ -128,6 +128,7 @@ public class DocumentCorrelator {
 		System.err.println("The incorrect number of arguments are being passed through. Please try again.");
 		System.exit(0);
 	}
+	//why you no push..
 	DocumentCorrelator doc = new DocumentCorrelator();
 	WordCount hamlet = new WordCount("hamlet");
 	WordCount theNewAtlantis = new WordCount("the-new-atlantis");
