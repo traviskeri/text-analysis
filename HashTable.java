@@ -7,25 +7,29 @@
  * generic.  You need the String contents to write your hashcode code.
  */
 import java.util.ArrayList;
+import java.lang.String;
 
-public class HashTable<E> implements DataCounter<String> {
+
+
+
+
+public class HashTable<E> implements DataCounter<E>{
 
     //Inner class for the hashnode
-    public class HashNode<k, v>{
-        k key;
-        v value;
+      public class HashNode{
+        E key;
+        int value;
 
-        HashNode<k, v> next;
+        HashNode next;
 
         //constructor for HashNode
-        public HashNode(k key, v value){
+        public HashNode(E key, int value){
             this.key = key;
             this.value = value;
         }
     }
-
-
-    private ArrayList<HashNode<k, v>> bucketArray;
+  
+    private ArrayList<HashNode> bucketArray;
 
     //Number of buckets in the hashtable
     private int numBuckets;
@@ -34,8 +38,8 @@ public class HashTable<E> implements DataCounter<String> {
     private int size;
 
     //Creating the bucketArry setting it to the default of 10
-    public map(){
-        bucketArray = new ArrayList<>():
+    public void map(){
+        bucketArray = new ArrayList<>();
         numBuckets = 10;
         size = 0;
 
@@ -48,20 +52,21 @@ public class HashTable<E> implements DataCounter<String> {
     public boolean isEmpty(){return size == 0;}
 
     //Takes the key hashes it to a unigue value then mods it to the size of the hashtable
-    private in findBucket(k key){
+    private int findBucket(E key){
         int hash;
-        for(int i = 0; i < k.length; i++){
-            hash = hash * 7 + k.chatAt(i);
+        String temp = key.toString();
+        for(int i = 0; i < temp.length(); i++){
+            hash = hash * 7 + temp.charAt(i);
         }
         int index = hash % numBuckets;
         return index;
     }
 
     //Returns the value of a HashNode for a key
-    public v get(k key){
+    public int get(E key){
 
         int bucketIndex = findBucket(key);
-        HashNode<k, v> head = bucketArray.get(bucketIndex);
+        HashNode head = bucketArray.get(bucketIndex);
 
         while(head != null){
             if(head.key.equals(key)){
@@ -74,10 +79,10 @@ public class HashTable<E> implements DataCounter<String> {
     }
 
     //Inserts a HashNode into the hasetable
-    public void insert(k key, v value){
+    public void insert(E key){
         
         int bucketIndex = findBucket(key);
-        HashNode<k, v> head = bucketArray.get(bucketIndex);
+        HashNode head = bucketArray.get(bucketIndex);
 
         /*while(head != null){
             if (head.key.equals(key)){
@@ -89,11 +94,11 @@ public class HashTable<E> implements DataCounter<String> {
 
         size++;
         head = bucketArray.get(bucketIndex);
-        HashNode<k, v> newNode = new HashNode<k, v>(key, value);
+        HashNode newNode = new HashNode(key, 1);
         newNode.next = head;
 
         if((1.0*size)/numBuckets >= 0.7){
-            ArrayList<HashNode<k, v> temp = bucketArray;
+            ArrayList<HashNode> temp = bucketArray;
             bucketArray = new ArrayList<>(numBuckets * 2);
             numBuckets = 2 * numBuckets;
             size = 0;
@@ -101,7 +106,7 @@ public class HashTable<E> implements DataCounter<String> {
                 bucketArray.insert(null);
             }
 
-            for(HashNode<k, v> head : temp){
+            for(HashNode head : temp){
                 while(head != null){
                     insert(head.key, head.value);
                     head = head.next;
@@ -113,12 +118,12 @@ public class HashTable<E> implements DataCounter<String> {
     }
 
     //Removes a HashNode from the hashtable
-    public v remove(k key){
+    public int remove(E key){
 
         int bucketIndex = findBucket(key);
 
-        HashNode<k, v> head = bucketArray.get(bucketIndex);
-        HashNode<k, v> prev = null;
+        HashNode head = bucketArray.get(bucketIndex);
+        HashNode prev = null;
 
         while(head != null){
             if(head.key.equals(key))
@@ -142,10 +147,10 @@ public class HashTable<E> implements DataCounter<String> {
     }
 
     /** {@inheritDoc} */
-    public DataCount<String>[] getCounts() {
+    public DataCount<E>[] getCounts() {
         @SuppressWarnings("unchecked")
         DataCount<E>[] counts = new DataCount[size];
-        HashNode<k, v> current;
+        HashNode current;
         int j = 0;
         
         if(!bucketArry.isEmpty()){
@@ -168,13 +173,13 @@ public class HashTable<E> implements DataCounter<String> {
     }
 
     /** {@inheritDoc} */
-    public void incCount(k key) {
+    public void incCount(E key) {
         int bucketIndex = findBucket(key);
-        HashNode<k, v> current = bucketArray.get(bucketIndex);
+        HashNode current = bucketArray.get(bucketIndex);
 
         while(current != null){
             if(current.key.equals(key)){
-                value++;
+                current.value= current.value + 1;
                 return;
             }
             current = current.next;
@@ -182,6 +187,20 @@ public class HashTable<E> implements DataCounter<String> {
 
         insert(key);
 
+    }
+
+     public static void main(String[] args)
+    {
+        HashTable<String>ht = new HashTable<>();
+        ht.incCount("this");
+        ht.incCount("coder");
+        ht.incCount("this");
+        ht.incCount("hi");
+        System.out.println(ht.getSize());
+        System.out.println(ht.remove("this"));
+        System.out.println(ht.remove("this"));
+        System.out.println(ht.getSize());
+        System.out.println(ht.isEmpty());
     }
 
 }
