@@ -14,6 +14,10 @@ public class AVL<E> extends BinarySearchTree implements DataCounter{
 	protected int lastComparedValue=0;
 	protected E lastWord = (E) "";
 
+	public AVL() {
+		
+	}
+	
 		private BSTNode findMin(BSTNode t){
 			if(t == null){
 				return null;
@@ -50,7 +54,6 @@ public class AVL<E> extends BinarySearchTree implements DataCounter{
 	                    if (currentNode.left == null) {
 	                        currentNode.left = new BSTNode(data);
 	                        currentNode.left.parent=currentNode;
-	                        rebalance(currentNode.left);
 	                        return;
 	                    }
 	                    currentNode = currentNode.left;
@@ -66,72 +69,7 @@ public class AVL<E> extends BinarySearchTree implements DataCounter{
 	                }
 	            }
 	        }
-	    }
-		
-		
-//		public void insert(String data) {
-//			BSTNode t = new BSTNode((Comparable) data);
-//			BSTNode currentNode= overallRoot;
-//			System.out.println(t.data);
-//			int cmp = t.data.compareTo(lastWord);
-//			if(overallRoot==null) {
-//				overallRoot=new BSTNode(t.data, null);
-//				lastWord = (E) t.data;
-//				}
-//			else if(cmp==0)
-//				
-//			//new node greater for roots only
-//			else if(cmp>0){//TODO NEED METHOD TO ORDER STRINGS
-//				if(overallRoot.right==null) {
-//					overallRoot.right = new BSTNode(t.data, overallRoot);
-//					lastWord = (E) t.data;
-//					overallRoot.right.count++;
-//					rebalance(overallRoot.right);	
-//				}
-//				else
-//					insert(t, overallRoot.right);
-//			}
-//			//new node lesser
-//			else if(cmp>0) {//TODO NEED METHOD TO ORDER STRINGS overallRoot.left.data
-//				if(overallRoot.left==null) {
-//					overallRoot.left = new BSTNode(t.data, overallRoot);
-//					lastWord = (E) t.data;
-//					rebalance(overallRoot.left);
-//					overallRoot.left.count++;
-//				}
-//				else
-//					insert(t, overallRoot.left);
-//			}
-//		}
-//		
-//		public void insert(BSTNode t, BSTNode focusNode) {
-//			//new node greater
-//			int cmp = t.data.compareTo(lastWord);
-//			if(cmp==0) {
-//				t.count++;
-//			}
-//			else if(cmp>0){//TODO NEED METHOD TO ORDER STRINGS
-//				if(focusNode.right==null) {
-//					focusNode.right = new BSTNode(t.data, focusNode);
-//					rebalance(focusNode.right);
-//					lastWord = (E) t.data;
-//				}
-//				else {
-//					insert(t, focusNode.right);
-//				}
-//			}
-//			else if(cmp<0) {//TODO NEED METHOD TO ORDER STRINGS
-//				if(focusNode.left==null) {
-//					focusNode.left = new BSTNode(t.data, focusNode);
-//					rebalance(focusNode.left);
-//					lastWord = (E) t.data;
-//				}
-//				else {
-//					insert(t, focusNode.left);
-//				}
-//			}
-//		}	
-		
+	    }		
 
 		 private BSTNode leftRotation(BSTNode x) {
 		 	BSTNode y = x.right;
@@ -211,7 +149,7 @@ public class AVL<E> extends BinarySearchTree implements DataCounter{
 	            deleteoverallRoot(child);
 	        }
 	    }
-		private void rebalance(BSTNode n) {
+		public void rebalance(BSTNode n) {
 	        balance(n);
 	        if (n.balance < -1) 
 	        		n = (height(n.left.left) >= height(n.left.right))? rightRotation(n): leftRight(n);

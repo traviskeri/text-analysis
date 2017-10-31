@@ -12,6 +12,10 @@ public class DataCount <E> {
 
     //total amount of words
     public double totalWordCount;
+    
+    //name of the file
+    
+    public String nameOfFile;
     /**
      * Create a new data count.
      * 

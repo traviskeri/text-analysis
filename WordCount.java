@@ -54,7 +54,7 @@ public class WordCount<T> {
 			            sortByDescendingCount(counts);
 			            for(int i=0; i<counts.length;i++) {
 			            		if(print)
-			            			System.out.println(counts[i].count + " \t" + counts[i].data);
+			            			System.out.println(counts[i].count + " \t" + counts[i].data );
 			                counts[0].totalWordCount+=counts[i].count;
 			                //System.out.println(counts[1].totalWordCount+ ": total words");
 			            }
