@@ -16,14 +16,14 @@ import java.lang.String;
 public class HashTable<E, V> implements DataCounter<E>{
 
     //Inner class for the hashnode
-      public class HashNode<E, V>{
+      public class HashNode<E>{
         E key;
-        V value;
+        int value;
 
         HashNode next;
 
         //constructor for HashNode
-        public HashNode(E key, V value){
+        public HashNode(E key, int value){
             this.key = key;
             this.value = value;
         }
@@ -45,7 +45,7 @@ public class HashTable<E, V> implements DataCounter<E>{
 
         //creates empty chains
         for(int i; i < numBuckets; i++){
-            bucketArray.insert(null);
+            bucketArray.add(null);
         }   
     }
 
@@ -64,7 +64,7 @@ public class HashTable<E, V> implements DataCounter<E>{
     }
 
     //Returns the value of a HashNode for a key
-    public V get(E key){
+    /*public HashNode get(E key){
 
         int bucketIndex = findBucket(key);
         HashNode head = bucketArray.get(bucketIndex);
@@ -77,7 +77,7 @@ public class HashTable<E, V> implements DataCounter<E>{
         }
 
         return null;
-    }
+    }*/
 
     //Inserts a HashNode into the hasetable
     public void insert(E key, int v){
@@ -105,7 +105,7 @@ public class HashTable<E, V> implements DataCounter<E>{
             numBuckets = 2 * numBuckets;
             size = 0;
             for(int i = 0; i < numBuckets; i++){
-                bucketArray.insert(null);
+                bucketArray.add(null);
             }
 
             for(HashNode head : temp){
@@ -181,7 +181,7 @@ public class HashTable<E, V> implements DataCounter<E>{
 
         while(current != null){
             if(current.key.equals(key)){
-                current.value= current.value + 1;
+                current.value = current.value + 1;
                 return;
             }
             current = current.next;
