@@ -44,7 +44,7 @@ public class HashTable<E, V> implements DataCounter<E>{
         size = 0;
 
         //creates empty chains
-        for(int i=0; i < numBuckets; i++){
+        for(int i; i < numBuckets; i++){
             bucketArray.add(null);
         }   
     }
@@ -54,7 +54,7 @@ public class HashTable<E, V> implements DataCounter<E>{
 
     //Takes the key hashes it to a unigue value then mods it to the size of the hashtable
     private int findBucket(E key){
-        int hash=0;
+        int hash;
         String temp = key.toString();
         for(int i = 0; i < temp.length(); i++){
             hash = hash * 7 + temp.charAt(i);
@@ -77,9 +77,9 @@ public class HashTable<E, V> implements DataCounter<E>{
     }*/
 
     //Inserts a HashNode into the hasetable
-    public void insert(Object key, int v){
+    public void insert(E key, int v){
         
-        int bucketIndex = findBucket((E)key);
+        int bucketIndex = findBucket(key);
         HashNode head = bucketArray.get(bucketIndex);
 
         /*while(head != null){
@@ -105,10 +105,10 @@ public class HashTable<E, V> implements DataCounter<E>{
                 bucketArray.add(null);
             }
 
-            for(HashNode headNode : temp){
-                while(headNode != null){
-                    insert(headNode.key, headNode.value);
-                    headNode = headNode.next;
+            for(HashNode head : temp){
+                while(head != null){
+                    insert(head.key, head.value);
+                    head = head.next;
                 }
             }
 

@@ -137,12 +137,12 @@ public class DocumentCorrelator {
 	//pass false so it wont print extra things
 	DataCount<String>[] hamletData = hamlet.countWords(freq1,false);//file1
 	DataCount<String>[] theNewAtlantisData = theNewAtlantis.countWords(freq2,false);//file2
-//	doc.printFreqs(hamletData, theNewAtlantisData);
+	doc.printFreqs(hamletData, theNewAtlantisData);
 	doc.findMetDif(hamletData, theNewAtlantisData);
 	doc.findMetDifLSI(hamletData, theNewAtlantisData);
-//	doc.compareSameWords(hamletData, theNewAtlantisData);
-//	System.out.println(doc.numWordsWithCount(hamletData, 102));//when hamlet.txt passed with 102 or 99 we should get back 2
-//	System.out.println(doc.totalWords(hamletData));
+	doc.compareSameWords(hamletData, theNewAtlantisData);
+	System.out.println(doc.numWordsWithCount(hamletData, 102));//when hamlet.txt passed with 102 or 99 we should get back 2
+	System.out.println(doc.totalWords(hamletData));
 	System.out.println(doc.latentSemanticIndexing(hamletData));
 	//doc.latentSemanticIndexing(hamletData).countWords(freq1, false);
 	

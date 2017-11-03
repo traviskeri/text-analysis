@@ -31,7 +31,7 @@ public class WordCount<T> {
 		switch(theArgs[0]) {
 			case "-a":	counter = new  AVL<String>();
 				break;
-			case "-h":	counter = new BinarySearchTree<String>();
+			case "-h":	counter = new HashTable<String, Integer>();
 				break;
 			default:		counter = new BinarySearchTree<String>();
 				break;
