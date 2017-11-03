@@ -1,197 +1,73 @@
-/**
- * TODO Replace this comment with your own.
- * 
- * Stub code for an implementation of a DataCounter that uses a hash table as
- * its backing data structure. We included this stub so that it's very clear
- * that HashTable works only with Strings, whereas the DataCounter interface is
- * generic.  You need the String contents to write your hashcode code.
- */
-import java.util.ArrayList;
-import java.lang.String;
+import java.util.*;
+//import HashTable.HashNode;
 
+public class AHashTable <E> implements DataCounter<E>{
 
+	AHashNode[] wordArray=new AHashNode[8];	//each index in the list contains a AHashNode array
+	int size = wordArray.length;
+	static double dec=.875;
+	
+	//this is the final method called
+	@Override
+	public void incCount(E data) {
+		
+	}
 
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return size;
+	}
 
+	@Override
+	public DataCount<E>[] getCounts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
-public class HashTable<E, V> implements DataCounter<E>{
-
-    //Inner class for the hashnode
-      public class HashNode<E>{
-        E key;
-        int value;
-
-        HashNode next;
-
-        //constructor for HashNode
-        public HashNode(E key, int value){
-            this.key = key;
-            this.value = value;
-        }
+    //Goes through each character of the string "data" and adds the value to a running sum
+    //this way each word from the text file will have its own unique value a=1, b=2, c=3, ect
+	//what ever number comes out here is where the "word" will be put in the arrays index
+    public int hash(Object data) {//hmm...
+    		String sData = (String) data;
+    		System.out.println(sData);
+    		int sum = 0;
+    		for(int i = 0; i < sData.length(); i++)
+    			sum += Character.getNumericValue(sData.charAt(i));
+    		return sum%this.size;
     }
-  
-    private ArrayList<HashNode> bucketArray;
-
-    //Number of buckets in the hashtable
-    private int numBuckets;
-
-    //Number of unique entry in hashtable
-    private int size;
-
-    //Creating the bucketArry setting it to the default of 10
-    public void Hashtable(){
-        bucketArray = new ArrayList<>();
-        numBuckets = 10;
-        size = 0;
-
-        //creates empty chains
-        for(int i; i < numBuckets; i++){
-            bucketArray.add(null);
-        }   
+    
+    //takes the current HashTable and checks if it needs to be resized
+    //if it does then double the size and fill in the table appropriately
+    public AHashTable<E> resize(){
+    	int filledCells=0;
+    	AHashTable<E> oldTable = this;
+		for(AHashNode a: oldTable.wordArray)
+			filledCells += (a==null)? 0 : 1;
+		//after this we have needed size but possible empty
+		this.wordArray = (oldTable.size*dec<filledCells)? new AHashNode[oldTable.size*2]: wordArray;
+		if(this.wordArray.length!=oldTable.wordArray.length) return fillTable(oldTable, this);//fill it in properl
+		return oldTable;
     }
-
-    //Returns a boolean for if the hashtable is empty
-    public boolean isEmpty(){return size == 0;}
-
-    //Takes the key hashes it to a unigue value then mods it to the size of the hashtable
-    private int findBucket(E key){
-        int hash;
-        String temp = key.toString();
-        for(int i = 0; i < temp.length(); i++){
-            hash = hash * 7 + temp.charAt(i);
-        }
-        int index = hash % numBuckets;
-        return index;
+    
+    //go through all values of the old hash table and fill in the new one
+    public AHashTable<E> fillTable(AHashTable<E> oldTable ,  AHashTable<E> newTable) {
+    		int index;
+    		for(AHashNode n: oldTable.wordArray) {
+    			index = hash(n.data);
+    			newTable.insert(n.data, newTable.wordArray[index]);//TODO put data in the table and treat it like a linked list
+    		}
+    		return this;
     }
-
-    //Returns the value of a HashNode for a key
-    /*public HashNode get(E key){
-        int bucketIndex = findBucket(key);
-        HashNode head = bucketArray.get(bucketIndex);
-        while(head != null){
-            if(head.key.equals(key)){
-                return head.value;
-            }
-            head = head.next;
-        }
-        return null;
-    }*/
-
-    //Inserts a HashNode into the hasetable
-    public void insert(E key, int v){
-        
-        int bucketIndex = findBucket(key);
-        HashNode head = bucketArray.get(bucketIndex);
-
-        /*while(head != null){
-            if (head.key.equals(key)){
-                head.value = value;
-                return;
-            }
-            head = head.next;
-        }*/
-
-        size++;
-        head = bucketArray.get(bucketIndex);
-        HashNode newNode = new HashNode(key, 1);
-        newNode.next = head;
-        bucketArray.set(bucketIndex, newNode);
-
-        if((1.0*size)/numBuckets >= 0.7){
-            ArrayList<HashNode> temp = bucketArray;
-            bucketArray = new ArrayList<>(numBuckets * 2);
-            numBuckets = 2 * numBuckets;
-            size = 0;
-            for(int i = 0; i < numBuckets; i++){
-                bucketArray.add(null);
-            }
-
-            for(HashNode head : temp){
-                while(head != null){
-                    insert(head.key, head.value);
-                    head = head.next;
-                }
-            }
-
-        }
-
+    
+    public void insert(E data) {
+    		AHashNode node = new AHashNode(data);
+    		
     }
-
-    //Removes a HashNode from the hashtable
-    /*public V remove(E key){
-        int bucketIndex = findBucket(key);
-        HashNode head = bucketArray.get(bucketIndex);
-        HashNode prev = null;
-        while(head != null){
-            if(head.key.equals(key))
-                break;
-            prev = head;
-            head = head.next;
-        }
-        if(head == null)
-            return null;
-        size--;
-        if(prev != null)
-            prev.next = head.next;
-        else
-            bucketArray.set(bucketIndex, head.next);
-        return head.value;
-    }*/
-
-    /** {@inheritDoc} */
-    public DataCount<E>[] getCounts() {
-        @SuppressWarnings("unchecked")
-        DataCount<E>[] counts = new DataCount[size];
-        HashNode current;
-        int j = 0;
-        
-        if(!bucketArray.isEmpty()){
-        
-            for(int i = 0; i < numBuckets; i++){
-                current = bucketArray.get(i);
-        
-                while(current != null){
-                    counts[j++] = new DataCount<E>(current.key, current.value);
-                    current = current.next;
-                }
-            }
-        }
-        return counts;
+    
+    public static void main (String[] args) {
+    		AHashTable ht = new AHashTable();
+    		System.out.println(ht.hash("ab"));//10+11	
     }
-
-    /** {@inheritDoc} Return the number of unique elements in the hashtable*/
-    public int getSize() {
-        return size;
-    }
-
-    /** {@inheritDoc} */
-    public void incCount(E key) {
-        int bucketIndex = findBucket(key);
-        HashNode current = bucketArray.get(bucketIndex);
-
-        while(current != null){
-            if(current.key.equals(key)){
-                current.value = current.value + 1;
-                return;
-            }
-            current = current.next;
-        }
-
-        insert(key, 1);
-
-    }
-
-     public static void main(String[] args)
-    {
-        HashTable<String, Integer>hashtable = new HashTable<>();
-        hashtable.incCount("this");
-        hashtable.incCount("coder");
-        hashtable.incCount("this");
-        hashtable.incCount("hi");
-        System.out.println(hashtable.getSize());
-        //System.out.println(hashtable.remove("this"));
-        //System.out.println(hashtable.remove("this"));
-        System.out.println(hashtable.getSize());
-        System.out.println(hashtable.isEmpty());
-    }
-
 }
