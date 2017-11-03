@@ -44,7 +44,11 @@ public class HashTable<E, V> implements DataCounter<E>{
         size = 0;
 
         //creates empty chains
+<<<<<<< HEAD
         for(int i=0; i < numBuckets; i++){
+=======
+        for(int i; i < numBuckets; i++){
+>>>>>>> branch 'master' of https://github.com/traviskeri/text-analysis.git
             bucketArray.add(null);
         }   
     }
@@ -65,6 +69,10 @@ public class HashTable<E, V> implements DataCounter<E>{
 
     //Returns the value of a HashNode for a key
     /*public HashNode get(E key){
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of https://github.com/traviskeri/text-analysis.git
         int bucketIndex = findBucket(key);
         HashNode head = bucketArray.get(bucketIndex);
         while(head != null){
