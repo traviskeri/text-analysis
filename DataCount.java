@@ -22,7 +22,7 @@ public class DataCount <E> {
      * @param data the data element whose count we are recording.
      * @param count the count for the data element.
      */
-    DataCount(Object data, int count) {
+    DataCount(E data, int count) {
         this.data =(E) data;
         this.count = count;
         this.totalWordCount=0;

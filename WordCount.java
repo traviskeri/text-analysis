@@ -31,7 +31,7 @@ public class WordCount<T> {
 		switch(theArgs[0]) {
 			case "-a":	counter = new  AVL<String>();
 				break;
-			case "-h":	counter = new HashTable<String, Integer>();
+			case "-h":	counter = new AHashTable<String>();
 				break;
 			default:		counter = new BinarySearchTree<String>();
 				break;
@@ -47,7 +47,7 @@ public class WordCount<T> {
             System.err.println("Error processing " + theArgs[2] + e);
             System.exit(1);
         }
-		DataCount<String>[] counts = counter.getCounts();
+		DataCount<String>[] counts = counter.getCounts();//put all the words in these counts
 
 		    	switch(theArgs[1]) {
 			    	case "-frequency": 

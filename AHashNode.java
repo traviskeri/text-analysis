@@ -1,6 +1,6 @@
 //import HashTable.HashNode;
 
-public class AHashNode <E>{
+public class AHashNode <E extends Comparable<E>>{
     E data;
     AHashNode next;
     int count;

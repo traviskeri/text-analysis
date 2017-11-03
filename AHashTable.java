@@ -1,37 +1,61 @@
 import java.util.*;
 //import HashTable.HashNode;
 
-public class AHashTable <E> implements DataCounter<E>{
+public class AHashTable<E extends Comparable<? super E>> implements DataCounter<E>{
 
 	AHashNode[] wordArray=new AHashNode[8];	//each index in the list contains a AHashNode array
 	int size = wordArray.length;
 	static double dec=.875;
 	
-	//this is the final method called
+	//this is turned into a data counter
 	@Override
 	public void incCount(E data) {
-		
+		this.resize();
+		this.insert(data);
 	}
 
+	//get the amount of cells in the hash table
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
 		return size;
 	}
-
+	
+	//this is the final method called 
+	//return that array of data counts
 	@Override
 	public DataCount<E>[] getCounts() {
-		// TODO Auto-generated method stub
-		return null;
+		DataCount<E>[] counts  = new DataCount[this.size];
+		if(this.wordArray!=null)
+			counts = linearCount(0, this.size-1, counts); 
+		return counts;
 	}
 	
+	//we know there is something in this table	
+	public DataCount<E>[] binarySearch(int front, int back, DataCount<E>[] counts) {
+		//lets go through front first
+		counts[front] = new DataCount<E>((E) this.wordArray[front].data, this.wordArray[front].count);
+		
+		
+		return counts;
+	}
+	
+	//we know there is something in this table	
+	public DataCount<E>[] linearCount(int front, int back, DataCount<E>[] counts) {
+		counts[front] = new DataCount<E>((E) this.wordArray[front].data, this.wordArray[front].count);
+		
+		
+		return counts;
+	}
+		
+	public void searchDownLists() {
+		
+	}
 
     //Goes through each character of the string "data" and adds the value to a running sum
     //this way each word from the text file will have its own unique value a=1, b=2, c=3, ect
 	//what ever number comes out here is where the "word" will be put in the arrays index
     public int hash(Object data) {//hmm...
     		String sData = (String) data;
-    		System.out.println(sData);
     		int sum = 0;
     		for(int i = 0; i < sData.length(); i++)
     			sum += Character.getNumericValue(sData.charAt(i));
@@ -56,18 +80,50 @@ public class AHashTable <E> implements DataCounter<E>{
     		int index;
     		for(AHashNode n: oldTable.wordArray) {
     			index = hash(n.data);
-    			newTable.insert(n.data, newTable.wordArray[index]);//TODO put data in the table and treat it like a linked list
+    			newTable.insert((E)n.data);//TODO put data in the table and treat it like a linked list
     		}
     		return this;
     }
     
     public void insert(E data) {
-    		AHashNode node = new AHashNode(data);
-    		
+    		AHashNode newNode = new AHashNode(data);
+    		int index = hash(data);
+    		if (this.wordArray[index]==null) {//best case just fill in the table
+    			this.wordArray[index]=newNode;
+    			System.out.println(newNode.data);
+    		}
+    		else
+    			insert(newNode, this.wordArray[index]);
+    }
+    
+    public void insert(AHashNode newNode, AHashNode focusNode) {
+    		//check if the nodes hold the same data (word)
+    		if( focusNode.data.compareTo(newNode.data)==0) {
+    			focusNode.count++;
+    			return;
+    		}
+    		//find the head node 
+    		if(focusNode.next==null)
+    			focusNode.next=newNode;
+    		else
+    			insert(newNode, focusNode.next);
     }
     
     public static void main (String[] args) {
     		AHashTable ht = new AHashTable();
-    		System.out.println(ht.hash("ab"));//10+11	
+    		//THIS SECTION ONLY DEAL WITH A 8 WIDE TABLE
+    		//System.out.println(ht.hash("ab"));//(10+11)%8=5
+    		System.out.println("hi" + ht.hash("hi"));
+    		System.out.println("hey" + ht.hash("hey"));
+    		System.out.println("heyy" + ht.hash("heyy"));
+    		//try out insert
+    		ht.insert("hi");
+    		ht.insert("hi");
+    		ht.insert("hey");
+    		ht.insert("heyy");
+    		//notice a linked list has been made here
+    		System.out.println(ht.wordArray[3].data);//hi
+    		System.out.println(ht.wordArray[3].next.data);//heyy
+    		
     }
 }
