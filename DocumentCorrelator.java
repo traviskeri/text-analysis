@@ -135,8 +135,14 @@ public class DocumentCorrelator {
 	String[] freq1 = {args[0],"-frequency",args[1]};
 	String[] freq2 = {args[0],"-frequency",args[2]};
 	//pass false so it wont print extra things
+
+	long startTime = System.nanoTime();
+
 	DataCount<String>[] hamletData = hamlet.countWords(freq1,false);//file1
 	DataCount<String>[] theNewAtlantisData = theNewAtlantis.countWords(freq2,false);//file2
+
+	System.out.println((System.nanoTime() - startTime)/ 1000000 + "milliseconds");
+
 	doc.printFreqs(hamletData, theNewAtlantisData);
 	doc.findMetDif(hamletData, theNewAtlantisData);
 	doc.findMetDifLSI(hamletData, theNewAtlantisData);
