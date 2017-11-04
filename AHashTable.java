@@ -41,6 +41,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 			if(wordArray[arrayIndex]!=null) {
 				counts[countIndex] = new DataCount<E>((E) wordArray[arrayIndex].data, wordArray[arrayIndex].count);
 				countIndex++;
+				System.out.println(countIndex);
 				//Search through the linked list add each value
 				if(wordArray[arrayIndex].next!=null) searchDownLists(countIndex, counts, wordArray[arrayIndex].next);
 			}
@@ -54,6 +55,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 		if(currentNode!=null) {
 			counts[countIndex] = new DataCount<E>((E) currentNode.data, currentNode.count);
 			countIndex++;
+			System.out.println(countIndex);
 			searchDownLists(countIndex, counts, currentNode.next);
 		}
 	}
@@ -101,6 +103,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 	    			index = hash(n.data);
 	    			//we have a new length and
 	    			this.insert((E)n.data, n.count);//TODO put data in the table and treat it like a linked list
+	    			System.out.println(n.data);
     			//now check depth
     			if(n.next!=null) {
     				insertDepth(n.next);
@@ -158,26 +161,37 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     		System.out.println("hello" + ht.hash("hello"));
  */   		
     		//try out insert
-    		for(int i = 0; i<5; i++) {
-	    		ht.insert("hi",0);
-	    		ht.insert("hey",0);
-	    		ht.insert("heyy",0);
-  			ht.insert("hello",0);
-    		}
+//    		for(int i = 0; i<5; i++) {
+//	    		ht.insert("hi",0);
+//	    		ht.insert("hey",0);
+//	    		ht.insert("heyy",0);
+//  			ht.insert("hello",0);
+//    		}
     		//notice a linked list has been made here
 //    		System.out.println(ht.wordArray[3].data);//hi
 //    		System.out.println(ht.wordArray[3].next.data);//heyy
-    		dc = ht.getCounts();
+//    		dc = ht.getCounts();
  
     		
     		
     		//checkSize() testing
-    		String[] checkArray = {"a","b","c","d","e","f","g","h"};
-    		for(int i = 0; i<checkArray.length; i++)
-    			ht.insert(checkArray[i],0);
+    		String[] checkArray = {"a","b","c","d","e","f","g","h","i","j","k"};
+//    		for(int i = 0; i<checkArray.length; i++)
+//    			ht.insert(checkArray[i],0);
     		
     		ht.checkSize();
     		System.out.println(ht.wordArray.length + " this should be larger than 8");
     		System.out.println(ht.getSize());
+    		DataCounter<String> counter = new AHashTable();
+    		for(String i: checkArray) {
+    			counter.incCount(i);
+    			ht.insert(i, 0);
+    		}
+    			
+    		System.out.println(ht.hash("dsaf")+"hell0");
+    		
+    		DataCount<String>[] counts = counter.getCounts();//put all the words in these counts
+//    		for(DataCount c : counts)
+//    			System.out.println(c.data);
     }
 }

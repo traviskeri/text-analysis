@@ -13,8 +13,9 @@ public class DocumentCorrelator {
 				"|"+String.format("%-13s", "file2 number")+"|"+String.format("%-15s", "file2 word"));
 		System.out.println("-----------------------------------------------------------------");
 		for(int i=0; i<=tempMin-1; i++)
-			System.out.println(String.format("%-13s", file1[i].count)+"|"+String.format("%-15s", file1[i].data)+
-					"|"+String.format("%-13s", file2[i].count)+"|"+String.format("%-15s", file2[i].data));
+			if(file1[i]!=null&&file2[i]!=null)
+				System.out.println(String.format("%-13s", file1[i].count)+"|"+String.format("%-15s", file1[i].data)+
+						"|"+String.format("%-13s", file2[i].count)+"|"+String.format("%-15s", file2[i].data));
 	}
 	
 	//met diff with lSI
@@ -35,8 +36,9 @@ public class DocumentCorrelator {
 		for (int i=0; i<biggerFile.length-1; i++){
            for (int j=0; j<smallerFile.length-1; j++){
               if (biggerFile[i].data.equals(smallerFile[j].data)) {
-            	  	metDif += Math.pow(((biggerFile[i].count / biggerFile[0].totalWordCount) - (smallerFile[j].count / smallerFile[0].totalWordCount)), 2);
-                System.out.println(metDif*100);
+            	  	if(biggerFile[i]!=null&&biggerFile[j]!=null)
+            	  		metDif += Math.pow(((biggerFile[i].count / biggerFile[0].totalWordCount) - (smallerFile[j].count / smallerFile[0].totalWordCount)), 2);
+                System.out.println(metDif*1000+"%");
               }
            }
         }
