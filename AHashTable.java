@@ -13,7 +13,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 	public void incCount(E data) {
 		this.wordArray = checkSize();
 		//System.out.println(this.wordArray.length);
-		insert(data, 0);
+		insert(data, 1);
 	}
 
 	//get the amount of cells in the hash table
@@ -28,7 +28,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 	public DataCount<E>[] getCounts() {
 		DataCount<E>[] counts  = new DataCount[this.size];
 		if(this.wordArray!=null)
-			counts = linearCount(0, this.size-1, counts); 
+			counts = linearCount(0, this.size, counts); 
 		return counts;
 	}
 	
@@ -36,7 +36,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 	public DataCount<E>[] linearCount(int front, int back, DataCount<E>[] counts) {
 		int arrayIndex = 0;
 		int countIndex = 0;
-		while(arrayIndex<=back) {
+		while(arrayIndex<back) {
 			//check if the index for word array has a valid hashNode
 			if(wordArray[arrayIndex]!=null) {
 				counts[countIndex] = new DataCount<E>((E) wordArray[arrayIndex].data, wordArray[arrayIndex].count);
@@ -83,7 +83,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 		if (oldTable.length*dec<filledCells){ 
 				this.wordArray = new AHashNode[oldTable.length*2];
 				if(this.wordArray.length!=oldTable.length) 
-					return fillTable(oldTable);//fill it in properl
+					return fillTable(oldTable);//fill it in properly
 		}
 		return oldTable;
     }
@@ -100,7 +100,6 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 	    			//System.out.println("null? " + n.data);
 	    			index = hash(n.data);
 	    			//we have a new length and
-	    			//System.out.println(n.count);
 	    			this.insert((E)n.data, n.count);//TODO put data in the table and treat it like a linked list
     			//now check depth
     			if(n.next!=null) {
@@ -141,6 +140,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     			focusNode.next=newNode;
     			amountOfWords++;
     			focusNode.next.count = count;
+    			return;
     			//System.out.println(focusNode.next.data + " : is put in the linked list");
     		}
     		else

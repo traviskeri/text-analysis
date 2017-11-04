@@ -47,18 +47,20 @@ public class WordCount<T> {
             System.err.println("Error processing " + theArgs[2] + e);
             System.exit(1);
         }
-		DataCount<String>[] counts = counter.getCounts();//put all the words in these counts
-		if(theArgs[0].equals("-h"));
-			for(int i=0; i<counts.length; i++)
-				counts[i].count += 1;
-			
+		DataCount<String>[] counts = counter.getCounts();//put all the words in these counts		
 		    	switch(theArgs[1]) {
 			    	case "-frequency": 
-			            sortByDescendingCount(counts);
+//			            sortByDescendingCount(counts);
+//			            if(theArgs[0]=="-h")
+			       		sortByDescendingCount(counts);
 			            for(int i=0; i<counts.length;i++) {
-			            		if(print)
-			            			System.out.println(counts[i].count + " \t" + counts[i].data );
-			                counts[0].totalWordCount+=counts[i].count;
+			            		if(print) {
+			            			if(counts[i]!=null) {
+			            				System.out.println(counts[i].count + " \t" + counts[i].data + " the count for this is: "+ i);
+			            			}
+			            		}
+			            		if(counts[i]!=null)
+			            			counts[0].totalWordCount+=counts[i].count;
 			                //System.out.println(counts[1].totalWordCount+ ": total words");
 			            }
 			    		break;
