@@ -135,8 +135,16 @@ public class DocumentCorrelator {
 	String[] freq1 = {args[0],"-frequency",args[1]};
 	String[] freq2 = {args[0],"-frequency",args[2]};
 	//pass false so it wont print extra things
+
+	long startTime = System.nanoTime();
+
 	DataCount<String>[] hamletData = hamlet.countWords(freq1,false);//file1
 	DataCount<String>[] theNewAtlantisData = theNewAtlantis.countWords(freq2,false);//file2
+
+	System.out.println((System.nanoTime() - startTime)/ 1000000 + "milliseconds to build the data structure");
+
+	startTime = System.nanoTime();
+
 	doc.printFreqs(hamletData, theNewAtlantisData);
 	doc.findMetDif(hamletData, theNewAtlantisData);
 	doc.findMetDifLSI(hamletData, theNewAtlantisData);
@@ -144,6 +152,7 @@ public class DocumentCorrelator {
 	System.out.println(doc.numWordsWithCount(hamletData, 102));//when hamlet.txt passed with 102 or 99 we should get back 2
 	System.out.println(doc.totalWords(hamletData));
 	System.out.println(doc.latentSemanticIndexing(hamletData));
+	System.out.println((System.nanoTime() - startTime)/ 1000000 + "milliseconds to access the data structure");
 	//doc.latentSemanticIndexing(hamletData).countWords(freq1, false);
 	
 	}
