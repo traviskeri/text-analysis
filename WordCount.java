@@ -121,7 +121,6 @@ public class WordCount<T> {
         boolean print = true;//this is so count words will print things
         String[] theArgs = args;
         countWords(theArgs,true);
-        System.out.println("hey");
 
     }
 }
