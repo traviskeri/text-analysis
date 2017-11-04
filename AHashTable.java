@@ -13,7 +13,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 	public void incCount(E data) {
 		this.wordArray = checkSize();
 		//System.out.println(this.wordArray.length);
-		insert(data);
+		insert(data, 0);
 	}
 
 	//get the amount of cells in the hash table
@@ -89,6 +89,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     }
     
     //go through all values of the old hash table and fill in the new one
+    //TODO AHashNode counts are being lost
     public AHashNode[] fillTable(AHashNode[] oldTable) {
     		int index;
     		this.size*=2;
@@ -98,34 +99,37 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     			if(n!=null) {
 	    			//System.out.println("null? " + n.data);
 	    			index = hash(n.data);
-	    			//we have a new length and 
-	    			this.insert((E)n.data);//TODO put data in the table and treat it like a linked list
+	    			//we have a new length and
+	    			//System.out.println(n.count);
+	    			this.insert((E)n.data, n.count);//TODO put data in the table and treat it like a linked list
     			//now check depth
-    			if(n.next!=null)insertDepth(n.next);
-    			}
+    			if(n.next!=null) {
+    				insertDepth(n.next);
+    			}}
     		}
     		return this.wordArray;
     }
     
     public void insertDepth(AHashNode currentNode) {
-    		this.insert((E)currentNode.data);
+    		this.insert((E)currentNode.data, currentNode.count);
     		if(currentNode.next!=null)
     			insertDepth(currentNode.next);
     }
     
-    public void insert(E data) {
+    public void insert(E data, int count) {
     		AHashNode newNode = new AHashNode(data);
     		int index = hash(data);
     		if (this.wordArray[index]==null) {//best case just fill in the table
     			this.wordArray[index]=newNode;
+    			wordArray[index].count = count;
     			amountOfWords++;
     			//System.out.println(newNode.data+" : is now taking a new cell");
     		}
     		else
-    			insert(newNode, this.wordArray[index]);
+    			insert(newNode, this.wordArray[index], count);
     }
     
-    public void insert(AHashNode newNode, AHashNode focusNode) {
+    public void insert(AHashNode newNode, AHashNode focusNode, int count) {
     		//check if the nodes hold the same data (word)
     		if( focusNode.data.compareTo(newNode.data)==0) {
     			focusNode.count++;
@@ -136,10 +140,11 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     		if(focusNode.next==null) {
     			focusNode.next=newNode;
     			amountOfWords++;
+    			focusNode.next.count = count;
     			//System.out.println(focusNode.next.data + " : is put in the linked list");
     		}
     		else
-    			insert(newNode, focusNode.next);
+    			insert(newNode, focusNode.next, count);
     }
     
     public static void main (String[] args) {
@@ -154,10 +159,10 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
  */   		
     		//try out insert
     		for(int i = 0; i<5; i++) {
-	    		ht.insert("hi");
-	    		ht.insert("hey");
-	    		ht.insert("heyy");
-  			ht.insert("hello");
+	    		ht.insert("hi",0);
+	    		ht.insert("hey",0);
+	    		ht.insert("heyy",0);
+  			ht.insert("hello",0);
     		}
     		//notice a linked list has been made here
 //    		System.out.println(ht.wordArray[3].data);//hi
@@ -169,7 +174,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     		//checkSize() testing
     		String[] checkArray = {"a","b","c","d","e","f","g","h"};
     		for(int i = 0; i<checkArray.length; i++)
-    			ht.insert(checkArray[i]);
+    			ht.insert(checkArray[i],0);
     		
     		ht.checkSize();
     		System.out.println(ht.wordArray.length + " this should be larger than 8");

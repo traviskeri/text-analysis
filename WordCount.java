@@ -48,7 +48,10 @@ public class WordCount<T> {
             System.exit(1);
         }
 		DataCount<String>[] counts = counter.getCounts();//put all the words in these counts
-
+		if(theArgs[0].equals("-h"));
+			for(int i=0; i<counts.length; i++)
+				counts[i].count += 1;
+			
 		    	switch(theArgs[1]) {
 			    	case "-frequency": 
 			            sortByDescendingCount(counts);
@@ -87,18 +90,19 @@ public class WordCount<T> {
      * 
      * @param counts array to be sorted.
      */
-    private static <E extends Comparable<? super E>> void sortByDescendingCount(
-            DataCount<E>[] counts) {
+    private static <E extends Comparable<? super E>> void sortByDescendingCount(DataCount<E>[] counts) {
         for (int i = 1; i < counts.length; i++) {
-            DataCount<E> x = counts[i];
-            int j;
-            for (j = i - 1; j >= 0; j--) {
-                if (counts[j].count >= x.count) {
-                    break;
-                }
-                counts[j + 1] = counts[j];
-            }
-            counts[j + 1] = x;
+            if(counts[i]!=null) {
+	        		DataCount<E> x = counts[i];
+	            int j;
+	            for (j = i - 1; j >= 0; j--) {
+	                if (counts[j].count >= x.count) {
+	                    break;
+	                }
+	                counts[j + 1] = counts[j];
+	            }
+	            counts[j + 1] = x;
+	        }
         }
     }
     
