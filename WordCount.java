@@ -22,7 +22,7 @@ public class WordCount<T> {
     public String getName() {	return name;}
 	public void setName(String name) {this.name = name;}
 	public ArrayList<String> getFrequency() {return frequency;}
-	public void setFrequency(ArrayList<String> frequency) {		this.frequency = frequency;}
+	public void setFrequency(ArrayList<String> frequency) { this.frequency = frequency;}
 	public int getNumUnique() {	return numUnique;}
 	public void setNumUnique(int num_unique) {	this.numUnique = num_unique;}
 
@@ -61,7 +61,7 @@ public class WordCount<T> {
 			    		break;
 			    	case "-num_unique":
 			    		if(print)
-			    			System.out.println(counter.getSize());//for hamlet we are getting 9701
+			    			System.out.println(counter.getSize());
 			    		break;
 		    	}  
 	    	return counts;
@@ -101,6 +101,8 @@ public class WordCount<T> {
             counts[j + 1] = x;
         }
     }
+    
+    
 
 
     /**

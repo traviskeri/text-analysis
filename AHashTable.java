@@ -5,20 +5,21 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
 
 	AHashNode[] wordArray=new AHashNode[8];	//each index in the list contains a AHashNode array
 	int size = wordArray.length;
+	public int amountOfWords=0;
 	static double dec=.7;
 	
 	//this is turned into a data counter
 	@Override
 	public void incCount(E data) {
-		checkSize();
-		System.out.println(this.wordArray.length);
+		this.wordArray = checkSize();
+		//System.out.println(this.wordArray.length);
 		insert(data);
 	}
 
 	//get the amount of cells in the hash table
 	@Override
 	public int getSize() {
-		return size;
+		return amountOfWords;
 	}
 	
 	//this is the final method called 
@@ -67,32 +68,49 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     			hash = hash*31 + Character.getNumericValue(sData.charAt(i));
     		if(hash<0)
     			hash*=2;
-    		System.out.println(Math.abs(hash%size));
+    		//System.out.println(Math.abs(hash%size));
     		return Math.abs(hash%size);
     }
     
     //takes the current HashTable and checks if it needs to be checkSized
     //if it does then double the size and fill in the table appropriately
-    public AHashTable<E> checkSize(){
+    public AHashNode[] checkSize(){
     	double filledCells=0;
-    	AHashTable<E> oldTable = this;
-		for(AHashNode a: oldTable.wordArray)
+    	AHashNode[] oldTable = this.wordArray;
+		for(AHashNode a: oldTable)
 			filledCells += (a==null)? 0 : 1;
 		//after this we have needed size but possible empty
-		this.wordArray = (oldTable.size*dec<filledCells)? new AHashNode[oldTable.size*2]: wordArray;
-		if(this.wordArray.length!=oldTable.wordArray.length) return fillTable(oldTable, this);//fill it in properl
+		if (oldTable.length*dec<filledCells){ 
+				this.wordArray = new AHashNode[oldTable.length*2];
+				if(this.wordArray.length!=oldTable.length) 
+					return fillTable(oldTable);//fill it in properl
+		}
 		return oldTable;
     }
     
     //go through all values of the old hash table and fill in the new one
-    public AHashTable<E> fillTable(AHashTable<E> oldTable ,  AHashTable<E> newTable) {
+    public AHashNode[] fillTable(AHashNode[] oldTable) {
     		int index;
     		this.size*=2;
-    		for(AHashNode n: oldTable.wordArray) {
-    			index = hash(n.data);
-    			newTable.insert((E)n.data);//TODO put data in the table and treat it like a linked list
+    		this.amountOfWords=0;
+    		//have to check each cell check depth
+    		for(AHashNode n: oldTable) {
+    			if(n!=null) {
+	    			//System.out.println("null? " + n.data);
+	    			index = hash(n.data);
+	    			//we have a new length and 
+	    			this.insert((E)n.data);//TODO put data in the table and treat it like a linked list
+    			//now check depth
+    			if(n.next!=null)insertDepth(n.next);
+    			}
     		}
-    		return this;
+    		return this.wordArray;
+    }
+    
+    public void insertDepth(AHashNode currentNode) {
+    		this.insert((E)currentNode.data);
+    		if(currentNode.next!=null)
+    			insertDepth(currentNode.next);
     }
     
     public void insert(E data) {
@@ -100,6 +118,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     		int index = hash(data);
     		if (this.wordArray[index]==null) {//best case just fill in the table
     			this.wordArray[index]=newNode;
+    			amountOfWords++;
     			//System.out.println(newNode.data+" : is now taking a new cell");
     		}
     		else
@@ -116,6 +135,7 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     		//find the head node 
     		if(focusNode.next==null) {
     			focusNode.next=newNode;
+    			amountOfWords++;
     			//System.out.println(focusNode.next.data + " : is put in the linked list");
     		}
     		else
@@ -153,5 +173,6 @@ public class AHashTable<E extends Comparable<? super E>> implements DataCounter<
     		
     		ht.checkSize();
     		System.out.println(ht.wordArray.length + " this should be larger than 8");
+    		System.out.println(ht.getSize());
     }
 }
